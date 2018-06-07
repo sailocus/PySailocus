@@ -1,0 +1,10 @@
+{
+	"sail_name":"Optimist",
+	"units_of_measurement":"mm",
+	"sail_points": [
+		{"location":"peak",   "coordinates": [223,520]},
+		{"location":"throat", "coordinates": [ 20,243]},
+		{"location":"tack",   "coordinates": [ 10, 10]},
+		{"location":"clew",   "coordinates": [407, 39]}
+	]
+}
