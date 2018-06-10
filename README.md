@@ -1,7 +1,11 @@
-# PySailocus
+PySailocus
+==================
 
+Python, Tkinter, & Forces on a Sail....
 
+![picture](https://raw.githubusercontent.com/sailocus/PySailocus/master/src/pysailocus/resources/images/PySailocus.png)   
 
+---
 > "The approximate locus of net aerodynamic force on a craft with a single sail is the centre of effort (CE ) at the geometric centre of the sail".
 >     https://en.wikipedia.org/wiki/Forces_on_sails
 
