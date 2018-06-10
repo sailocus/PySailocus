@@ -40,8 +40,10 @@ class SView(object):
 		# INPUT PANEL
 		self.inputPanel = InputPanel(self.root, self.scanvas)
 		
+		self.inputPanel.sailCombobox['values']=("New...")
+		self.inputPanel.sailCombobox.current(0)
 		
+	def loadSail(self, sail):
+		#self.copySailDimensionsToEditBoxes(sail)
+		self.inputPanel.setSail(sail)
 		
-	################################################################	
-	def copySailDimensionsToEditBoxes(self, sail):
-		self.inputPanel.copySailDimensionsToEditBoxes(sail)

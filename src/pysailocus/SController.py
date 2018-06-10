@@ -29,14 +29,17 @@ class Controller(object):
 			
 			# M O D E L
 			self.model = SModel(self)
-			# TODO: add code to have them choose what existing sail to load/start with
-			self.model.loadSailFromJson(os.path.join(os.path.dirname(__file__),"resources", "models","opti.json")); 
-			self.root.title(self.baseTitle + " - " + str(self.model.getSailName()))
 			
 			# V I E W
 			self.view = SView(self, self.model);
 			# Because we loaded a default sail into the model above, we can do this right now...
-			self.view.copySailDimensionsToEditBoxes(self.model.sail)
+			# TODO: add code to have them choose what existing sail to load/start with
+			self.model.loadSailFromJson(os.path.join(os.path.dirname(__file__),"resources", "models","opti.json")); 
+			self.root.title(self.baseTitle + " - " + str(self.model.getSailName()))
+			self.view.loadSail(self.model.sail)
+			
+			
+		
 	
 			############
 			# MAIN LOOP 
