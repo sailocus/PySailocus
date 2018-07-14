@@ -35,14 +35,24 @@ class SView(object):
 		self.menuBar = MenuBar(self.root)
 	
 		# CANVAS
-		self.scanvas = SCanvas(self.root)
+		self.canvas = SCanvas(self.root)
 	
 		# INPUT PANEL
-		self.inputPanel = InputPanel(self.root, self.scanvas)
+		self.inputPanel = InputPanel(self)
 		
 		self.inputPanel.sailCombobox['values']=("New...")
 		self.inputPanel.sailCombobox.current(0)
 		
+	def changeSail(self, event):
+		newSaleName = self.inputPanel.sailCombobox.get();
+		if ( (self.model.sail is None) or (newSaleName != self.model.sail.sailName)):
+			self.canvas.canvas.delete("all")
+			print(event.widget.get())
+			if (newSaleName == "New..."):
+				self.controller.newSail()
+			else:
+				self.controller.loadSail(newSaleName)
+
 	def loadSail(self, sail):
 		#self.copySailDimensionsToEditBoxes(sail)
 		self.inputPanel.setSail(sail)

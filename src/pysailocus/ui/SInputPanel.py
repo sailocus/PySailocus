@@ -8,6 +8,7 @@ from tkinter import *
 from tkinter import ttk
 from pysailocus.sail.Sail import Sail
 from pysailocus.geometry.Point import Point
+from tkinter import messagebox
 
 
 
@@ -15,16 +16,16 @@ class InputPanel(object):
 	'''
 	classdocs
 	'''
-	def __init__(self, parentWindow, canvasWindow):
+	def __init__(self, view):
 		'''
 		Constructor
 		'''
-		self.parentWindow = parentWindow
-		self.canvasWindow = canvasWindow
+		self.parentWindow = view.root
+		self.canvasWindow = view.canvas
 		
 		# We'll have a frame in a frame.  Top level frame will
 		# be resizable on all sides
-		topFrame = ttk.Frame(parentWindow, padding="3 3 12 12 ")
+		topFrame = ttk.Frame(self.parentWindow, padding="3 3 12 12 ")
 		topFrame.grid(column=0, row=0, sticky=N + S + E + W)
 		topFrame.columnconfigure(0, weight=1)
 		topFrame.rowconfigure(0, weight=1)
@@ -61,6 +62,7 @@ class InputPanel(object):
 		self.sailListVar = StringVar()
 		self.sailCombobox = ttk.Combobox(frameWindow)
 		self.sailCombobox.grid(column=my_column, row=my_row, columnspan=3)
+		self.sailCombobox.bind("<<ComboboxSelected>>", view.changeSail)
 		
 		#####################################
 		# Separator
@@ -83,7 +85,7 @@ class InputPanel(object):
 		
 		my_column = 1
 		my_row = my_row + 1;
-		startEditBoxesColumn = my_row #NOTICE-we capture where teh corresponding edit boxes go!
+		startEditBoxesColumn = my_row #NOTICE-we capture where the corresponding edit boxes go!
 		ttk.Label(frameWindow, text="Head").grid(column=my_column, row=my_row);
 		my_row = my_row + 1;
 		ttk.Label(frameWindow, text="Peak").grid(column=my_column, row=my_row); 
@@ -140,6 +142,21 @@ class InputPanel(object):
 		my_col = my_col + 1
 		self.clew_entry_y = ttk.Entry(frameWindow, width=7, textvariable=self.clew_y)
 		self.clew_entry_y.grid(column=my_col, row=my_row, sticky=(W, E))
+		
+		
+		self.entryStringvarList = [
+			self.head_x,
+			self.head_y,
+			self.peak_x,
+			self.peak_y,
+			self.throat_x,
+			self.throat_y,
+			self.tack_x,
+			self.tack_y,
+			self.clew_x,
+			self.clew_y
+			]
+		
 		
 		self.entryList = [
 			self.head_entry_x,
@@ -259,13 +276,14 @@ class InputPanel(object):
 				tack=Point(int(self.tack_x.get()), int(self.tack_y.get())),
 				clew=Point(int(self.clew_x.get()), int(self.clew_y.get())))
 		except ValueError as e:
-			messagebox.showerror("Error on coordinates", str(e))
+			messagebox.showerror("Error on coordinates.", "All edit boxes must have a positive integer: \n" + str(e))
 			raise
 
 	def setSail(self, sail):
 		self.copySailDimensionsToEditBoxes(sail)
 		self.sailCombobox['values'] = ("New...", sail.sailName)
-		self.sailCombobox['state'] = 'disabled'
+		self.sailName = sail.sailName
+		# @TODO self.sailCombobox['state'] = 'disabled'
 		self.sailCombobox.current(1)
 		self.calculate()
 
@@ -283,6 +301,10 @@ class InputPanel(object):
 		self.clew_y.set(sailDimensions.clew.getY())
 
 
+	def clearEditBoxes(self):
+		for box in self.entryStringvarList:
+			box.set("")
+
 	def radioButtonSelected(self):
 
 		# Reset all text boxes to enabled
@@ -293,3 +315,4 @@ class InputPanel(object):
 		for b in self.entryDisEnablement[self.sailSides.get()]:
 			b.config(state=DISABLED)   
 
+	

@@ -32,16 +32,29 @@ class Controller(object):
 			
 			# V I E W
 			self.view = SView(self, self.model);
-			# Because we loaded a default sail into the model above, we can do this right now...
-			# TODO: add code to have them choose what existing sail to load/start with
-			self.model.loadSailFromJson(os.path.join(os.path.dirname(__file__),"resources", "models","opti.json")); 
-			self.root.title(self.baseTitle + " - " + str(self.model.getSailName()))
-			self.view.loadSail(self.model.sail)
+
+			# Kick thigns off with the trusty optimist sail
+			self.loadSail("Optimist")
 			
-			
-		
-	
 			############
 			# MAIN LOOP 
 			############
 			self.root.mainloop()
+			
+			
+		'''
+		@todo: NOt implemented yet!!!
+		'''
+		def newSail(self):
+			self.model.sail = None
+			self.view.inputPanel.clearEditBoxes()
+			
+			
+		def loadSail(self, newSailName):
+
+			self.model.loadSailFromJson(os.path.join(os.path.dirname(__file__),"resources", "models", newSailName + ".json")); 
+			self.root.title(self.baseTitle + " - " + str(self.model.getSailName()))
+			self.view.loadSail(self.model.sail)
+			
+		
+	
