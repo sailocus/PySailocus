@@ -1,6 +1,6 @@
 '''
 @author: Paul DiCarlo
-@copyright: 2018 Paul DiCarlo
+@copyright: 2018, 2019 Paul DiCarlo
 @license: MIT
 @contact: https://github.com/sailocus/PySailocus
 '''

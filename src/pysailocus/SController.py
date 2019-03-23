@@ -1,6 +1,6 @@
 '''
 @author: Paul DiCarlo
-@copyright: 2018 Paul DiCarlo
+@copyright: 2018, 2019 Paul DiCarlo
 @license: MIT
 @contact: https://github.com/sailocus/PySailocus
 '''
@@ -33,7 +33,7 @@ class Controller(object):
 			# V I E W
 			self.view = SView(self, self.model);
 
-			# Kick thigns off with the trusty optimist sail
+			# Kick things off with the trusty optimist sail
 			self.loadSail("Optimist")
 			
 			############
