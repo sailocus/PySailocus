@@ -107,7 +107,6 @@ class SCanvas(object):
 			self.drawLine(coeLineSegment.point_a , coeLineSegment.point_b, fill='Red')
 			
 		for lspcls in coe.lines_perpendicular_to_centroid_line_segments:
-			print("lspcls=" + str(lspcls))
 			self.drawLine(lspcls.point_a , lspcls.point_b, fill='Purple')
 			
 			

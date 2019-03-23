@@ -19,17 +19,7 @@ def getPerpendicularLineSegmentPoint(pointA : Point, pointB : Point, weight):
 		perpendicularSlope = float(-1/theSlope)
 		x = pointA.getX()+weight
 		newPoint = newPointOnLine( perpendicularSlope, x, pointA )
-		if True:
-			print("==>original slope=" + str(theSlope))
-			#print("==>perpendicular slope=" + str(perpendicularSlope))
-			#print("==>calculated y=" + str(y))
-			print(str(pointA))
-			print(str(pointB))
-			print("x=" + str(x))
-		#self.drawLine(center_of_effort_1, Point(center_of_effort_1.getX()+24, y), fill='Orange')
-		#newPoint = Point(x, y) # create new point to create perpendicular line of weight based on surface area
-
-
+		
 		return newPoint
 
 ################################################################

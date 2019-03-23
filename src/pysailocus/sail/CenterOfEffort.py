@@ -11,6 +11,9 @@ from pysailocus.geometry.Point import Point
 from pysailocus.geometry.Triangle import Triangle
 from pysailocus.geometry.LineSegment import LineSegment
 from pysailocus.geometry.LineSegment import getPerpendicularLineSegmentPoint
+import logging
+
+logger = logging.getLogger('pysailocus')
 
 ################################################################
 #
@@ -41,14 +44,14 @@ class CenterOfEffort(object):
 			center_of_effort = triangle.getCentroidPoint()
 
 			self.component_centers_of_effort.append(center_of_effort)
-			print("new center_of_effort: {0}   size={1}".format(center_of_effort, len(self.component_centers_of_effort)))
+			logger.debug("new center_of_effort: {0}   size={1}".format(center_of_effort, len(self.component_centers_of_effort)))
 			
 		for i in self.component_centers_of_effort:
-			print("\t center_of_effort is " + str(i))	
+			logger.debug("\t center_of_effort is " + str(i))	
 			
 				
 		if len(self.component_centers_of_effort) > 1: 
-			print("a={0} b={0}".format(self.component_centers_of_effort[0],self.component_centers_of_effort[1]))
+			logger.debug("a={0} b={0}".format(self.component_centers_of_effort[0],self.component_centers_of_effort[1]))
 			self.lines_connecting_centroid_line_segments.append(LineSegment(self.component_centers_of_effort[0], self.component_centers_of_effort[1]))
 		else:
 			self.center_of_effort = self.component_centers_of_effort[0]
@@ -57,13 +60,15 @@ class CenterOfEffort(object):
 
 		triangleArea1 =  Triangle(self.sail.throat,self.sail.clew,self.sail.peak).area()
 		triangleArea2 = Triangle(self.sail.throat, self.sail.clew, self.sail.tack).area()
-		print("triangleArea1={0}  triangleArea2={1}".format(triangleArea1, triangleArea2))
+		logger.debug("triangleArea1={0}  triangleArea2={1}".format(triangleArea1, triangleArea2))
 		
 		
 		tp1 = getPerpendicularLineSegmentPoint(self.component_centers_of_effort[0], self.component_centers_of_effort[1], int(triangleArea2/1000))
 		self.lines_perpendicular_to_centroid_line_segments.append(LineSegment(self.component_centers_of_effort[0], tp1))
 		tp2 = getPerpendicularLineSegmentPoint(self.component_centers_of_effort[1], self.component_centers_of_effort[0], int(-1*triangleArea1/1000))
 		self.lines_perpendicular_to_centroid_line_segments.append(LineSegment(self.component_centers_of_effort[1], tp2))
+		
+		logger.debug('tp1={0} tp2={1}'.format(tp1, tp2))
 		
 		self.tp_lineSegment = LineSegment(tp1, tp2)
 

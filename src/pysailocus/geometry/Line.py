@@ -7,6 +7,9 @@
 
 
 from pysailocus.geometry.Point import Point
+import logging
+
+logger = logging.getLogger('pysailocus')
 
 #########################################################
 # For a given line defined by two points,
@@ -20,7 +23,7 @@ def getSlope(point_a : Point, point_b : Point):
 
 	try:
 		theSlope = (float(point_b.getY()-point_a.getY())) /   (float(point_b.getX()-point_a.getX()))
-		print( method +" slope=" + str(theSlope) + "=  ( (" +  str(point_b.getY()) +")-("+str(point_a.getY()) + ") ) / ( (" +  str(point_b.getX()) +")-("+str(point_a.getX()) +"))" )
+		logger.debug("method={0} slope={1}=( ({2})-({3}) ) / ( ({4})-({5}) )".format(method, theSlope, point_b.getY(), point_a.getY(), point_b.getX(), point_a.getX()))
 		return (theSlope )
 	except ZeroDivisionError:
 		return None #slope is undefined
@@ -110,21 +113,13 @@ def intersection(line_a : Line, line_b : Line):
 	m1=line_a.slope
 	m2=line_b.slope
 	
-	#print("slope1="+str(m1))
-	#print("slope2="+str(m2))
 	
 	b1=yIntercept(m1, line_a.point_a);
 	b2=yIntercept(m2, line_b.point_b);
 	
-	#print("yIntercept1="+str(b1))
-	#print("yIntercept2="+str(b2))
-	
-	#print(type(m1))
-	#print(type(b1))
-	
 	# To find the midpoint
 	# y = mx + b
-	print(method + ": b1="+str(b1)+", b2="+str(b2) + ", m1=" + str(m1) + ", m2=" + str(m2))
+	logger.debug('method={0}: b1={1}, b2={2}, m1={3}, m2={4}'.format(method, b1, b2, m1, m2))
 	
 	# if Slopes are the same, 
 	# lines never intersect...

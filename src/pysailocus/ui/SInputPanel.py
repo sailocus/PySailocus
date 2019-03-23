@@ -10,6 +10,11 @@ from pysailocus.sail.Sail import Sail
 from pysailocus.geometry.Point import Point
 from tkinter import messagebox
 
+import logging
+
+
+
+logger = logging.getLogger('pysailocus')
 
 
 class InputPanel(object):
@@ -173,12 +178,12 @@ class InputPanel(object):
 			]
 
 		self.entryEnablementList = [
-                                [ # 0-sided sail
-                                ],
-                                [ # 1-sided sail
-                                ],
-                                [ # 3-sided sail
-                                ],
+                [ # 0-sided sail - impossible, but makes easier for arrach access on index=numsides
+                ],
+                [ # 1-sided sail - impossible, but makes easier for arrach access on index=numsides
+                ],
+                [ # 2-sided sail - impossible, but makes easier for arrach access on index=numsides
+                ],
 				[ # 3-sided sail
 					self.head_entry_x,
 					self.head_entry_y,
@@ -197,6 +202,35 @@ class InputPanel(object):
 					self.clew_entry_x,
 					self.clew_entry_y	
 				],
+			]
+
+
+
+		self.entryStringVarListForSides = [
+				[ # 0-sided sail - impossible, but makes easier for arrach access on index=numsides
+                ],
+                [ # 1-sided sail - impossible, but makes easier for arrach access on index=numsides
+                ],
+                [ # 2-sided sail - impossible, but makes easier for arrach access on index=numsides
+                ],
+				[ # 3-sided sail
+					self.head_x,
+					self.head_y,
+					self.tack_x,
+					self.tack_y,
+					self.clew_x,
+					self.clew_y
+				],
+				[ # 4-sided sail
+					self.peak_x,
+					self.peak_y,
+					self.throat_x,
+					self.throat_y,
+					self.tack_x,
+					self.tack_y,
+					self.clew_x,
+					self.clew_y
+				]
 			]
 
 
@@ -298,7 +332,7 @@ class InputPanel(object):
 					tack=Point(int(self.tack_x.get()), int(self.tack_y.get())),
 					clew=Point(int(self.clew_x.get()), int(self.clew_y.get())))
 		except ValueError as e:
-			print('num sides={0}'.format(self.sailSides))
+			logger.info('num sides={0}'.format(self.sailSides))
 			messagebox.showerror("Error on coordinates.", "All edit boxes must have a positive integer: \n" + str(e))
 			raise
 
@@ -325,12 +359,11 @@ class InputPanel(object):
 
 
 	def setEntryBoxesText(self, stringVarList=None, defaultText=""):
-		print('Defaulttext={0}'.format(defaultText))
+		logger.info('Defaulttext={0}'.format(defaultText))
 		
 		if stringVarList is None:
 			stringVarList = self.entryStringVarList
 		for entry in stringVarList:
-			print('--------------------------entry={0}'.format(entry))
 			entry.set(defaultText)
 
 	def radioButtonSelected(self):
@@ -342,22 +375,25 @@ class InputPanel(object):
 		self.changeNumSailSides(newSides)
 		
 		
-
+	def clearEditBoxes(self):
+		logger.info("***********TODO:  Needs cleaner implementation")
+		numSides = self.sailSides.get()
+		self.changeNumSailSides(numSides) 
+		
+		self.setEntryBoxesText(stringVarList=self.entryStringVarListForSides[numSides], defaultText='')
 
 	
 	def changeNumSailSides(self, newSides):
-		print('changeNumSailSides({0})'.format(newSides))
+		logger.info('changeNumSailSides({0})'.format(newSides))
 		self.setEntryBoxesText(defaultText="N/A")
 							
 		for b in self.entryList:
-			print('wwwwwwwwwwwwwwwwwwwwwwwwwwwwww     b={0}'.format(b))
 			b.config(state=DISABLED)
 			b.configure(foreground =  'purple')
 			
 		
-		print('Number of sides:{0}'.format(newSides))
+		logger.info('Number of sides:{0}'.format(newSides))
 		for b in self.entryEnablementList[newSides]:
-			print('---->{0}'.format(b))
 			b.configure(state=NORMAL, foreground='black')   
 
 			

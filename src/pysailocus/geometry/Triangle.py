@@ -9,8 +9,9 @@ from pysailocus.geometry.Line import Line
 from pysailocus.geometry.LineSegment import LineSegment
 from pysailocus.geometry.Line import intersection
 from pysailocus.geometry.Point import Point
+import logging
 
-
+logger = logging.getLogger('pysailocus')
 
 ################################################################
 #
@@ -87,8 +88,8 @@ class Triangle(object):
 if __name__ == "__main__":
 	
 	t = Triangle(Point(0,0), Point(10,0), Point(5,5))
-	print("Area of triangle " + str(t) + " is " + str(t.area()))
-	print("Line segmetns of " + str(t) + " is ==> ")
+	print('Area of triangle {0} is {1}'.format(t, t.area()))
+	print('Line segments of {0}  is ==> '.format(t))
 	for segment in t.getCentroidLineSegments():
-		print("\t" + str(segment))
+		print('\t{0}'.format(segment))
 	

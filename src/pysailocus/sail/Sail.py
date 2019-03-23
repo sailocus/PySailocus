@@ -7,6 +7,10 @@
 
 from pysailocus.geometry.Point import Point
 from pysailocus.geometry.Triangle import Triangle
+import logging
+
+logger = logging.getLogger('pysailocus')
+
 
 ################################################################
 #
@@ -39,7 +43,7 @@ class Sail(object):
 		bPeak = peak is not None
 		bThroat = throat is not None
 		
-		print(params)
+		logger.debug('params={0}'.format(params))
 		if (bHead and bPeak and bThroat) or (not bHead and not bPeak and not bThroat) :
 			raise ValueError('Sail constructor: head, peak, and throat cannot all populated or non empty.  params=' + params)
 		if (bPeak and not bThroat) or (not bPeak and bThroat):
@@ -70,7 +74,7 @@ class Sail(object):
 	# tack clew
 	def validateSail(self):
 		numSides = self.getNumSides()
-		print ('VALIDATING       {0}      SIDES'.format(numSides))
+		logger.debug('VALIDATING {0} SIDES'.format(numSides))
 		if 4 == numSides:
 			if self.peak.y <= self.tack.y or self.peak.y <= self.clew.y:
 				raise ValueError("Peak must have y value greater than tack or clew. \n" +str(self) )
@@ -140,7 +144,7 @@ class Sail(object):
 
 	################################################################
 	def calculateCenterOfEffort(self):
-		print("hello")
+		logger.debug("TODO:  IMPLEMENT calculateCenterOfEffort()!")
 ################################################################
 #
 ################################################################
@@ -156,8 +160,7 @@ def getSailPointFromJson(pointName, jsonData):
 def createSailFromJson(jsonData):
 	sailName = jsonData["sail_name"]
 	
-	print("length="+str(len(jsonData["sail_points"])))
-	print( jsonData["sail_points"][0]["location"])
+	logger.debug('length={0}'.format(len(jsonData["sail_points"])))
 	#tack, clew, head=None, peak=None, throat=None):
 	
 	peak = getSailPointFromJson("peak", jsonData)

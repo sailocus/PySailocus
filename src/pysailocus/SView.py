@@ -4,12 +4,11 @@
 @license: MIT
 @contact: https://github.com/sailocus/PySailocus
 '''
-from pysailocus.SModel import SModel
+
 from pysailocus.ui.SInputPanel import InputPanel
 from pysailocus.ui.SMenuBar import MenuBar
 from pysailocus.ui.SCanvas import SCanvas
 from tkinter import Grid
-
 
 ################################################################
 # MVC class for View
@@ -18,6 +17,11 @@ class SView(object):
 	
 	################################################################
 	def __init__(self, controller, model):
+		
+		MAX_WIDTH=800
+		MAX_HEIGHT=600
+		
+		
 		self.controller = controller
 		self.model = model
 		
@@ -27,8 +31,8 @@ class SView(object):
 		
 		Grid.rowconfigure(self.root, 0, weight=1)
 		Grid.columnconfigure(self.root, 1, weight=1)  
-		self.root.minsize(width=800, height=600)
-		self.root.maxsize(width=800, height=600)
+		self.root.minsize(width=MAX_WIDTH, height=MAX_HEIGHT)
+		self.root.maxsize(width=MAX_WIDTH, height=MAX_HEIGHT)
 		self.root.resizable(False,False)	 
 	
 		# MENU BAR
@@ -47,7 +51,6 @@ class SView(object):
 		newSaleName = self.inputPanel.sailCombobox.get();
 		if ( (self.model.sail is None) or (newSaleName != self.model.sail.sailName)):
 			self.canvas.canvas.delete("all")
-			print(event.widget.get())
 			if (newSaleName == "New..."):
 				self.controller.newSail()
 			else:
