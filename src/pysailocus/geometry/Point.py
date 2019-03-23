@@ -13,13 +13,13 @@
 class Point(object):
 
 	################################################################
-	def __init__(self, x, y):
-		self.x = int(x) 
-		self.y = int(y) 
+	def __init__(self, x: int, y:int):
+		self.x = x
+		self.y = y 
 
 	################################################################   
 	def __str__(self):
-		return "("+str(self.x)+","+str(self.y)+")"
+		return '({0},{1})'.format(self.x, self.y)
 
 	################################################################
 	def getX(self):
@@ -30,7 +30,8 @@ class Point(object):
 		return self.y
 
 	################################################################
-	def isEqual(self, some_point):
+	def isIdentical(self, some_point):
+		assert isinstance(some_point, Point)
 		if (self.x != some_point.x):
 			return False
 		if (self.y != some_point.y):

@@ -75,12 +75,13 @@ class SCanvas(object):
 				fill="darkblue",font="Helvetica 10",
 				text=names[x])
 
-		#draw line from throat to clew
-		self.canvas.create_line(
-			transformedSail.throat.getX(),
-			transformedSail.throat.getY(),
-			transformedSail.clew.getX(),
-			transformedSail.clew.getY(),dash=(4, 2))
+		if sail.getNumSides() > 3:
+			#draw line from throat to clew
+			self.canvas.create_line(
+				transformedSail.throat.getX(),
+				transformedSail.throat.getY(),
+				transformedSail.clew.getX(),
+				transformedSail.clew.getY(),dash=(4, 2))
 		
 		
 		#-------------------------------------------------
@@ -121,11 +122,14 @@ class SCanvas(object):
                 coe.center_of_effort.getY()+pxSize,
                 fill='black')
 		
+		
+		coe_string='COE=({0},{1})'.format(coe.center_of_effort.getX(), coe.center_of_effort.getY())
+		
 		self.canvas.create_text(
 				coe.center_of_effort.getX()+25,
 				coe.center_of_effort.getY()-10,
 				fill="darkblue",font="Helvetica 10",
-				text="COE")
+				text=coe_string)
 		
 			
 	###########################################################

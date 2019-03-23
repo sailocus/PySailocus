@@ -144,7 +144,8 @@ class InputPanel(object):
 		self.clew_entry_y.grid(column=my_col, row=my_row, sticky=(W, E))
 		
 		
-		self.entryStringvarList = [
+		
+		self.entryStringVarList = [
 			self.head_x,
 			self.head_y,
 			self.peak_x,
@@ -171,16 +172,31 @@ class InputPanel(object):
 			self.clew_entry_y
 			]
 
-		self.entryDisEnablement = [
-		     [
-				self.peak_entry_x,
-				self.peak_entry_y,
-				self.throat_entry_x,
-				self.throat_entry_y,
-				], [
-				self.head_entry_x,
-				self.head_entry_y
-				]
+		self.entryEnablementList = [
+                                [ # 0-sided sail
+                                ],
+                                [ # 1-sided sail
+                                ],
+                                [ # 3-sided sail
+                                ],
+				[ # 3-sided sail
+					self.head_entry_x,
+					self.head_entry_y,
+					self.tack_entry_x,
+					self.tack_entry_y,
+					self.clew_entry_x,
+					self.clew_entry_y		
+				],
+			    [ # 4-sided sail
+					self.peak_entry_x,
+					self.peak_entry_y,
+					self.throat_entry_x,
+					self.throat_entry_y,
+					self.tack_entry_x,
+					self.tack_entry_y,
+					self.clew_entry_x,
+					self.clew_entry_y	
+				],
 			]
 
 
@@ -190,16 +206,16 @@ class InputPanel(object):
 		my_col = 2
 		self.sailSides = IntVar()
 		my_row = my_row + 1
-		self.button_3sides = Radiobutton(frameWindow, text="3 sided sail", variable=self.sailSides, value=0, command=self.radioButtonSelected)
+		self.button_3sides = Radiobutton(frameWindow, text="3-sided sail", variable=self.sailSides, value=3, command=self.radioButtonSelected)
 		self.button_3sides.grid(column=my_col, row=my_row, columnspan=2)
 		self.button_3sides.deselect()
 		my_row = my_row + 1
-		self.button_4sides = Radiobutton(frameWindow, text="4 sided sail", variable=self.sailSides, value=1, command=self.radioButtonSelected)
+		self.button_4sides = Radiobutton(frameWindow, text="4-sided sail", variable=self.sailSides, value=4, command=self.radioButtonSelected)
 		self.button_4sides.grid(column=my_col, row=my_row, columnspan=2)
 		self.button_4sides.select()  # <--- #TODO:  add 3 sided sails
 		
 		
-		self.button_3sides.config(state=DISABLED)  # <---- #TODO:  Get 3 sided sail working
+		#self.button_3sides.config(state=DISABLED)  # <---- #TODO:  Get 3 sided sail working
 		
 		
 		#######################
@@ -270,12 +286,19 @@ class InputPanel(object):
 	'''  
 	def editBoxesToSail(self):
 		try:
-			return Sail(
-				peak=Point(int(self.peak_x.get()), int(self.peak_y.get())),
-				throat=Point(int(self.throat_x.get()), int(self.throat_y.get())),
-				tack=Point(int(self.tack_x.get()), int(self.tack_y.get())),
-				clew=Point(int(self.clew_x.get()), int(self.clew_y.get())))
+			if 4 == self.sailSides.get():
+				return Sail(
+					peak=Point(int(self.peak_x.get()), int(self.peak_y.get())),
+					throat=Point(int(self.throat_x.get()), int(self.throat_y.get())),
+					tack=Point(int(self.tack_x.get()), int(self.tack_y.get())),
+					clew=Point(int(self.clew_x.get()), int(self.clew_y.get())))
+			if 3 == self.sailSides.get():
+				return Sail(
+					head=Point(int(self.head_x.get()), int(self.head_y.get())),
+					tack=Point(int(self.tack_x.get()), int(self.tack_y.get())),
+					clew=Point(int(self.clew_x.get()), int(self.clew_y.get())))
 		except ValueError as e:
+			print('num sides={0}'.format(self.sailSides))
 			messagebox.showerror("Error on coordinates.", "All edit boxes must have a positive integer: \n" + str(e))
 			raise
 
@@ -301,18 +324,42 @@ class InputPanel(object):
 		self.clew_y.set(sailDimensions.clew.getY())
 
 
-	def clearEditBoxes(self):
-		for box in self.entryStringvarList:
-			box.set("")
+	def setEntryBoxesText(self, stringVarList=None, defaultText=""):
+		print('Defaulttext={0}'.format(defaultText))
+		
+		if stringVarList is None:
+			stringVarList = self.entryStringVarList
+		for entry in stringVarList:
+			print('--------------------------entry={0}'.format(entry))
+			entry.set(defaultText)
 
 	def radioButtonSelected(self):
 
-		# Reset all text boxes to enabled
-		for b in self.entryList:
-			b.config(state=NORMAL)
+
 		
 		# Now disable text boxes not needed for the chosen number of sides.   
-		for b in self.entryDisEnablement[self.sailSides.get()]:
-			b.config(state=DISABLED)   
+		newSides = self.sailSides.get()
+		self.changeNumSailSides(newSides)
+		
+		
+
+
+	
+	def changeNumSailSides(self, newSides):
+		print('changeNumSailSides({0})'.format(newSides))
+		self.setEntryBoxesText(defaultText="N/A")
+							
+		for b in self.entryList:
+			print('wwwwwwwwwwwwwwwwwwwwwwwwwwwwww     b={0}'.format(b))
+			b.config(state=DISABLED)
+			b.configure(foreground =  'purple')
+			
+		
+		print('Number of sides:{0}'.format(newSides))
+		for b in self.entryEnablementList[newSides]:
+			print('---->{0}'.format(b))
+			b.configure(state=NORMAL, foreground='black')   
+
+			
 
 	

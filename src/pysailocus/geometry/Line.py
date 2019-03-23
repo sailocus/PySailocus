@@ -12,7 +12,7 @@ from pysailocus.geometry.Point import Point
 # For a given line defined by two points,
 # return the slope.
 #########################################################
-def getSlope(point_a, point_b):
+def getSlope(point_a : Point, point_b : Point):
 	method="getSlope():"
 
 	if point_a is None or point_b is None:
@@ -29,7 +29,7 @@ def getSlope(point_a, point_b):
 #########################################################
 # Given a slope an an existing point, find the y intercept
 #########################################################
-def yIntercept(slope, point):
+def yIntercept(slope, point : Point ):
 	
 	if slope is None:
 		return None
@@ -47,7 +47,7 @@ def yIntercept(slope, point):
 # ====> y=mx+b
 # ====> y=slope*x + b
 #########################################################
-def newPointOnLine(slope, newX, existingPoint):
+def newPointOnLine(slope, newX, existingPoint : Point):
 	if slope is None or newX is None or existingPoint is None:
 		raise ValueError("newPointOnLine(slope, newX, ExistingPoint): <-- none of args may be None!")
 
@@ -65,7 +65,7 @@ def newPointOnLine(slope, newX, existingPoint):
 class Line(object):
 
 	#########################################################
-	def __init__(self, point_a, point_b, slope = None):
+	def __init__(self, point_a : Point, point_b : Point, slope = None):
 	
 		self.point_a = point_a
 		self.point_b = point_b
@@ -84,7 +84,7 @@ class Line(object):
 		#validate that the two points and slope are consistent.  For some new x value...
 		newPointA= newPointOnLine(self.slope, self.point_a.x+10, self.point_b)
 		newPointB = newPointOnLine(self.slope, self.point_b.x+10, self.point_a)
-		if (( self.point_a.isEqual(newPointA)) or ( self.point_b.isEqual(newPointB))):
+		if (( self.point_a.isIdentical(newPointA)) or ( self.point_b.isIdentical(newPointB))):
 			raise ValueError("Validation of points and slope do not work out. line=" + str(self) +
 				" calculated newPointA=" + str(self.point_a) + " and newPointB=" + str(self.point_b))
 
@@ -102,7 +102,7 @@ class Line(object):
 #
 # https://stackoverflow.com/questions/31506740/java-find-intersection-of-two-lines
 #########################################################
-def intersection(line_a, line_b):
+def intersection(line_a : Line, line_b : Line):
 	method="intersection"
 	
 	# y = mx + b
@@ -150,11 +150,5 @@ if __name__ == "__main__":
 	
 	#print (Line (None, None, None))
 	print(str(getSlope(Point(50,10), Point(24,115))))
-	try:
-		print( str (Line(Point(1,1), None, 1.0)))
-		raise ValueError("Expected a value error here!!!")
-	except ValueError:
-		print('Expected error')
-
 	
 	

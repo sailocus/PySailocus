@@ -12,7 +12,7 @@ from pysailocus.geometry.Line import newPointOnLine, getSlope
 #############################################################################################
 # For pointA, return a point weighed perpendicular to the linesegement as defined by pointb
 #############################################################################################
-def getPerpendicularLineSegmentPoint(pointA, pointB, weight):
+def getPerpendicularLineSegmentPoint(pointA : Point, pointB : Point, weight):
 		print("__________________________________________________")
 		theSlope = getSlope(pointA, pointB)
 		#y_offset = -1* COE.COEMath.getOffsetForY(center_of_effort_1, center_of_effort_2)
@@ -38,7 +38,7 @@ def getPerpendicularLineSegmentPoint(pointA, pointB, weight):
 class LineSegment(object):
 	
 	################################################################
-	def __init__(self, point_a, point_b):
+	def __init__(self, point_a : Point, point_b : Point):
 		
 		if not isinstance(point_a, Point):
 			raise ValueError("point_a is not a point: " + str(point_a))
@@ -60,7 +60,7 @@ class LineSegment(object):
 			raise ValueError("LineSegement: both points must be non-null.  " + str(self))
 	
 	################################################################	
-	def getMidpoint(self):
+	def getMidpoint(self) -> Point:
 		self.validate()
 		
 		return Point(int((self.point_a.x+self.point_b.x)/2), int((self.point_a.y+self.point_b.y)/2))  
@@ -70,6 +70,7 @@ class LineSegment(object):
 # M A I N 
 ################################################################	
 if __name__ == "__main__":
-	print(str(LineSegment(Point(0,2), Point(0,4)).getMidpoint().isEqual(Point(0,3))))
+	print(str(LineSegment(Point(0,2), Point(0,4)).getMidpoint().isIdentical(Point(0,3))))
 	#assert(  False == LineSegment(Point(0,2), Point(0,4)).getMidpoint().isEqual(Point(0,3))), print("Yahoo")
+
 	

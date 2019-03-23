@@ -18,7 +18,7 @@ from pysailocus.geometry.Point import Point
 class Triangle(object):
 	
 	################################################################
-	def __init__(self, point_a, point_b, point_c):
+	def __init__(self, point_a : Point, point_b : Point, point_c : Point):
 		self.point_a = point_a
 		self.point_b = point_b
 		self.point_c = point_c
@@ -33,7 +33,7 @@ class Triangle(object):
 		if not isinstance(self.point_a, Point) or not isinstance(self.point_b, Point) or not isinstance(self.point_b, Point):
 			raise ValueError("Triangle: all args must be of type Point")
 		
-		if self.point_a.isEqual(self.point_b) or self.point_a.isEqual(self.point_c) or self.point_b.isEqual(self.point_c):
+		if self.point_a.isIdentical(self.point_b) or self.point_a.isIdentical(self.point_c) or self.point_b.isIdentical(self.point_c):
 			raise ValueError("Triangle: All 3 points of the triangle must be unique of each other.")
 			
 	def __str__(self):

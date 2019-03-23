@@ -14,7 +14,22 @@ from pysailocus.geometry.Triangle import Triangle
 class Sail(object):
 
 	################################################################
-	def __init__(self, tack, clew, head=None, peak=None, throat=None, sailName = None):
+	def __init__(self, tack : Point, clew : Point, head=None, peak=None, throat=None, sailName = None):
+
+		if clew is not None:
+			if not isinstance(clew, Point):
+				raise Exception("clew must be of type Point or None")
+		if head is not None:
+			if not isinstance(head, Point):
+				raise Exception("head must be of type Point or None")
+		if peak is not None:
+			if not isinstance(peak, Point):
+				raise Exception("peak must be of type Point or None")
+		if throat is not None:
+			if not isinstance(throat, Point):
+				raise Exception("throat must be of type Point or None")
+
+
 	
 		self.sailName = sailName 
 		
@@ -54,8 +69,14 @@ class Sail(object):
 	# peak throat
 	# tack clew
 	def validateSail(self):
-		if self.peak.y <= self.tack.y or self.peak.y <= self.clew.y:
-			raise ValueError("Peak must have y value greater than tack or clew. \n" +str(self) )
+		numSides = self.getNumSides()
+		print ('VALIDATING       {0}      SIDES'.format(numSides))
+		if 4 == numSides:
+			if self.peak.y <= self.tack.y or self.peak.y <= self.clew.y:
+				raise ValueError("Peak must have y value greater than tack or clew. \n" +str(self) )
+		if 3 == numSides:
+			if  self.head.y <= self.tack.y or self.head.y <= self.clew.y:
+				raise ValueError("Head must have y value greater than tack or clew. \n" +str(self) )
 		return
 
 
